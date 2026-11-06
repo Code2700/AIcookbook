@@ -1,0 +1,27 @@
+# Dependencies
+node_modules/
+
+# VSCodium / VS Code — keep workspace config, ignore user state
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+
+# Netlify
+.netlify/
