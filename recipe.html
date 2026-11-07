@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Recipe detail — AI Cookbook." />
+    <meta name="theme-color" content="#e85d3d" />
+    <title>Recipe — AI Cookbook</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="container">
+        <a href="index.html" class="logo">🍳 AI Cookbook</a>
+        <nav class="nav">
+          <a href="index.html" class="nav-link">Browse</a>
+          <a href="index.html?view=favorites" class="nav-link">Favorites</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <p class="back-row"><a href="index.html" class="nav-link">← Back</a></p>
+      <div id="recipe-root"></div>
+    </main>
+
+    <footer class="app-footer">
+      <div class="container">
+        <p>
+          Built with HTML, CSS &amp; JavaScript. Recipes via
+          <a href="https://www.themealdb.com/" target="_blank" rel="noopener"
+            >TheMealDB</a
+          >.
+        </p>
+      </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/recipe.js"></script>
+  </body>
+</html>

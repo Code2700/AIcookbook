@@ -203,3 +203,64 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Focus the search box
   searchInput.focus();
 });
+
+// --- Favorites view ---
+// If URL is index.html?view=favorites, show favorites on load.
+document.addEventListener("DOMContentLoaded", async () => {
+  const view = new URLSearchParams(window.location.search).get("view");
+  if (view !== "favorites") return;
+
+  // Give the main init a tick to set up DOM refs
+  await new Promise((r) => setTimeout(r, 50));
+
+  const heroEl = document.querySelector(".hero");
+  if (heroEl) {
+    heroEl.querySelector("h1").textContent = "Your favorites";
+    heroEl.querySelector(".hero-subtitle").textContent =
+      "Recipes you saved for later. Tap ❤️ on any recipe to add it here.";
+    const searchBar = heroEl.querySelector(".search-bar");
+    const chips = heroEl.querySelector(".category-chips");
+    if (searchBar) searchBar.style.display = "none";
+    if (chips) chips.style.display = "none";
+  }
+
+  const ids = getFavoriteIds();
+  const grid = document.getElementById("recipe-grid");
+  const status = document.getElementById("status");
+  if (!grid || !status) return;
+  grid.innerHTML = "";
+
+  if (ids.length === 0) {
+    status.textContent =
+      "No favorites yet. Search for recipes and tap ❤️ to save.";
+    status.className = "status status-empty";
+    status.hidden = false;
+    return;
+  }
+
+  status.textContent = `Loading ${ids.length} favorite${ids.length === 1 ? "" : "s"}...`;
+  status.className = "status status-info";
+  status.hidden = false;
+
+  // Fetch each favorite (sequential to avoid rate limits)
+  try {
+    const meals = [];
+    for (const id of ids) {
+      const meal = await getRecipeById(id);
+      if (meal) meals.push(meal);
+    }
+    grid.innerHTML = "";
+    if (meals.length === 0) {
+      status.textContent = "Could not load favorites.";
+      status.className = "status status-error";
+      return;
+    }
+    status.textContent = `${meals.length} favorite${meals.length === 1 ? "" : "s"}`;
+    status.className = "status status-success";
+    meals.forEach((meal) => grid.appendChild(renderRecipeCard(meal)));
+  } catch (err) {
+    status.textContent = "Could not load favorites. Try again.";
+    status.className = "status status-error";
+    console.error("Favorites load error:", err);
+  }
+});
