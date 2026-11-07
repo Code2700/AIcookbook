@@ -29,8 +29,9 @@
   --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
 
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, sans-serif;
   --font-heading: "Georgia", "Times New Roman", serif;
 
   --max-width: 1100px;
@@ -253,5 +254,225 @@ main {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================================
+   M1 — Search bar, category chips, recipe grid
+   ========================================================================== */
+
+/* --- Search bar -------------------------------------------------------- */
+.search-bar {
+  display: flex;
+  gap: var(--space-2);
+  max-width: 640px;
+  margin: 0 auto var(--space-4);
+  flex-wrap: wrap;
+}
+
+#search-input {
+  flex: 1;
+  min-width: 200px;
+  padding: var(--space-3) var(--space-4);
+  font: inherit;
+  font-size: 1rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-elevated);
+  color: var(--text);
+}
+
+#search-input:focus {
+  outline: none;
+  border-color: var(--brand);
+}
+
+.btn-surprise {
+  padding: var(--space-3) var(--space-4);
+  font-size: 1rem;
+  font-weight: 600;
+  background: var(--brand);
+  color: #fff;
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+}
+
+.btn-surprise:hover {
+  background: var(--brand-dark);
+}
+
+/* --- Category chips ---------------------------------------------------- */
+.category-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: center;
+  margin-bottom: var(--space-5);
+}
+
+.category-chip {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.875rem;
+  font-weight: 500;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--text);
+}
+
+.category-chip:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.category-chip.active {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+}
+
+/* --- Status line ------------------------------------------------------- */
+.status {
+  text-align: center;
+  font-size: 0.9375rem;
+  margin-bottom: var(--space-4);
+  min-height: 1.5em;
+}
+
+.status-info {
+  color: var(--text-muted);
+}
+.status-success {
+  color: #2e7d32;
+}
+.status-empty {
+  color: var(--text-muted);
+  font-style: italic;
+}
+.status-error {
+  color: #c62828;
+}
+
+@media (prefers-color-scheme: dark) {
+  .status-success {
+    color: #66bb6a;
+  }
+  .status-error {
+    color: #ef5350;
+  }
+}
+
+/* --- Recipe grid ------------------------------------------------------- */
+.recipe-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 600px) {
+  .recipe-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .recipe-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* --- Recipe card ------------------------------------------------------- */
+.recipe-card {
+  display: block;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  color: var(--text);
+  text-decoration: none;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.recipe-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  text-decoration: none;
+}
+
+.recipe-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--border);
+}
+
+.recipe-card-body {
+  padding: var(--space-3) var(--space-4) var(--space-4);
+}
+
+.recipe-card h3 {
+  font-size: 1.0625rem;
+  font-family: var(--font-sans);
+  margin-bottom: var(--space-1);
+  line-height: 1.3;
+}
+
+.recipe-meta {
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+}
+
+/* --- Skeleton loading -------------------------------------------------- */
+.skeleton {
+  pointer-events: none;
+}
+
+.skeleton-img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--bg-elevated) 50%,
+    var(--border) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+.skeleton-line {
+  height: 14px;
+  margin: var(--space-3) var(--space-4);
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--border) 25%,
+    var(--bg-elevated) 50%,
+    var(--border) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+}
+
+.skeleton-line.short {
+  width: 50%;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-img,
+  .skeleton-line {
+    animation: none;
+    background: var(--border);
   }
 }

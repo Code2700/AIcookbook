@@ -24,31 +24,53 @@
 
     <main class="container">
       <section class="hero">
-        <h1>TEST — cook smarter, not harder.</h1>
+        <h1>What are we cooking?</h1>
         <p class="hero-subtitle">
-          Find any recipe, cook hands-free with voice guidance, and scan your
-          fridge to see what you can make.
+          Search thousands of recipes. Cook hands-free in M3. Scan your fridge
+          in M4.
         </p>
-        <div class="hero-badges">
-          <span class="badge">🎤 Hands-free mode</span>
-          <span class="badge">📷 Camera scan</span>
-          <span class="badge">📱 Works offline</span>
+
+        <div class="search-bar">
+          <input
+            type="search"
+            id="search-input"
+            placeholder="Try 'chicken', 'pasta', 'rice'..."
+            autocomplete="off"
+            aria-label="Search recipes"
+          />
+          <button id="surprise-btn" class="btn-surprise" type="button">
+            🎲 Surprise me
+          </button>
         </div>
+
+        <div
+          id="category-chips"
+          class="category-chips"
+          aria-label="Filter by category"
+        ></div>
       </section>
 
-      <section class="placeholder-note">
-        <p>
-          <strong>M0 — Foundation complete.</strong><br />
-          Browse and search arrive in M1. Voice cooking arrives in M3. Camera
-          mode arrives in M4.
-        </p>
-      </section>
+      <p id="status" class="status" hidden></p>
+
+      <section
+        id="recipe-grid"
+        class="recipe-grid"
+        aria-live="polite"
+      ></section>
     </main>
 
     <footer class="app-footer">
       <div class="container">
-        <p>Built with HTML, CSS &amp; JavaScript. Recipes via TheMealDB.</p>
+        <p>
+          Built with HTML, CSS &amp; JavaScript. Recipes via
+          <a href="https://www.themealdb.com/" target="_blank" rel="noopener"
+            >TheMealDB</a
+          >.
+        </p>
       </div>
     </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/search.js"></script>
   </body>
 </html>
