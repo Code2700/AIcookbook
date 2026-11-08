@@ -886,3 +886,180 @@ body.cook-mode {
     font-size: 0.875rem;
   }
 }
+
+/* ==========================================================================
+   M4a — Camera mode (preview, capture, review, ingredient entry)
+   ========================================================================== */
+
+.camera-mode main {
+  padding-top: var(--space-5);
+}
+
+.camera-section {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.camera-heading {
+  text-align: center;
+  margin-bottom: var(--space-2);
+}
+
+.camera-subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  margin-bottom: var(--space-5);
+}
+
+/* --- Camera root (holds <video>) --- */
+.camera-root {
+  position: relative;
+  background: #000;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+}
+
+.camera-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.camera-loading,
+.camera-error p {
+  color: #ccc;
+  padding: var(--space-5);
+  text-align: center;
+  font-size: 1rem;
+}
+
+.camera-error {
+  padding: var(--space-5);
+  text-align: center;
+}
+
+.camera-error .btn-primary {
+  margin-top: var(--space-3);
+}
+
+/* --- Capture button (big, thumb-friendly) --- */
+.camera-actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: var(--space-4);
+}
+
+.btn-capture {
+  background: var(--brand);
+  color: #fff;
+  font-size: 1.25rem;
+  font-weight: 700;
+  padding: var(--space-4) var(--space-8);
+  border-radius: 999px;
+  box-shadow: var(--shadow-md);
+  min-height: 64px;
+  min-width: 200px;
+}
+
+.btn-capture:hover {
+  background: var(--brand-dark);
+}
+
+/* --- Captured review --- */
+.capture-review {
+  margin-bottom: var(--space-4);
+}
+
+.capture-review img {
+  width: 100%;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-3);
+}
+
+.review-actions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.btn-secondary,
+.btn-primary {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 600;
+  min-height: 56px;
+}
+
+.btn-secondary {
+  background: var(--bg-elevated);
+  border: 2px solid var(--border);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  border-color: var(--brand);
+}
+
+.btn-primary {
+  background: var(--brand);
+  color: #fff;
+  border: 2px solid var(--brand);
+}
+
+.btn-primary:hover {
+  background: var(--brand-dark);
+  border-color: var(--brand-dark);
+}
+
+/* --- Ingredient entry step --- */
+.ingredient-step {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  margin-bottom: var(--space-4);
+}
+
+.ingredient-step h2 {
+  font-size: 1.25rem;
+  margin-bottom: var(--space-2);
+}
+
+.step-hint {
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  margin-bottom: var(--space-3);
+}
+
+.ingredients-input {
+  width: 100%;
+  padding: var(--space-3);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-md);
+  font: inherit;
+  font-size: 1rem;
+  background: var(--bg);
+  color: var(--text);
+  margin-bottom: var(--space-3);
+  resize: vertical;
+  min-height: 100px;
+}
+
+.ingredients-input:focus {
+  outline: none;
+  border-color: var(--brand);
+}
+
+/* --- Status line --- */
+.camera-status {
+  text-align: center;
+  font-size: 0.9375rem;
+  margin-top: var(--space-3);
+}

@@ -202,6 +202,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // Focus the search box
   searchInput.focus();
+  // If URL has ?q=, run the search on load (used by camera page)
+  const initialQuery = new URLSearchParams(window.location.search).get("q");
+  if (initialQuery) {
+    searchInput.value = initialQuery;
+    performSearch(initialQuery);
+  }
 });
 
 // --- Favorites view ---

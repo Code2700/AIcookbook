@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Voice Test — AI Cookbook (temporary)</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+      h1 {
+        color: #e85d3d;
+      }
+      .box {
+        padding: 16px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin: 12px 0;
+      }
+      button {
+        padding: 12px 20px;
+        font-size: 16px;
+        margin: 6px 6px 6px 0;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        background: #e85d3d;
+        color: white;
+        font-weight: 600;
+      }
+      button:hover {
+        background: #c9492c;
+      }
+      .ok {
+        color: green;
+        font-weight: 600;
+      }
+      .err {
+        color: #c62828;
+        font-weight: 600;
+      }
+      #transcript {
+        font-size: 20px;
+        padding: 12px;
+        background: #f5f5f5;
+        border-radius: 6px;
+        min-height: 50px;
+      }
+      .status-dot {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #ccc;
+        margin-right: 8px;
+      }
+      .status-dot.listening {
+        background: #c62828;
+        animation: pulse 1s infinite;
+      }
+      @keyframes pulse {
+        50% {
+          opacity: 0.4;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🎤 Voice Smoke Test</h1>
+    <p>
+      Verify your browser supports the APIs we need before we build the cooking
+      page.
+    </p>
+
+    <!-- Test 1: Browser support -->
+    <div class="box">
+      <h2>1. Browser support</h2>
+      <p>SpeechSynthesis (TTS): <span id="tts-support">checking…</span></p>
+      <p>SpeechRecognition (STT): <span id="stt-support">checking…</span></p>
+    </div>
+
+    <!-- Test 2: Speak -->
+    <div class="box">
+      <h2>2. Speech synthesis (speakers)</h2>
+      <p>Click to hear a test phrase.</p>
+      <button id="speak-btn">🔊 Speak test phrase</button>
+      <p id="speak-status"></p>
+    </div>
+
+    <!-- Test 3: Listen -->
+    <div class="box">
+      <h2>3. Speech recognition (microphone)</h2>
+      <p>
+        Click, allow the mic, then say something like "hello this is a test".
+      </p>
+      <p>
+        <span class="status-dot" id="listen-dot"></span
+        ><span id="listen-status">Not listening</span>
+      </p>
+      <button id="listen-btn">🎤 Start listening</button>
+      <button id="stop-btn">⏹ Stop</button>
+      <p>Transcript:</p>
+      <div id="transcript">…</div>
+    </div>
+
+    <script>
+      // --- Test 1: Support ---
+      const ttsSupported = "speechSynthesis" in window;
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const sttSupported = !!SR;
+
+      document.getElementById("tts-support").innerHTML = ttsSupported
+        ? '<span class="ok">✅ supported</span>'
+        : '<span class="err">❌ NOT supported — try Chrome or Edge</span>';
+
+      document.getElementById("stt-support").innerHTML = sttSupported
+        ? '<span class="ok">✅ supported</span>'
+        : '<span class="err">❌ NOT supported — try Chrome or Edge</span>';
+
+      // --- Test 2: Speak ---
+      document.getElementById("speak-btn").addEventListener("click", () => {
+        const status = document.getElementById("speak-status");
+        if (!ttsSupported) {
+          status.textContent = "SpeechSynthesis not supported.";
+          return;
+        }
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(
+          "Testing one two three. Chop the onions finely, then heat the pan.",
+        );
+        u.rate = 0.95;
+        u.onstart = () => {
+          status.textContent = "🔊 Speaking…";
+        };
+        u.onend = () => {
+          status.textContent = "✅ Finished speaking.";
+        };
+        u.onerror = (e) => {
+          status.textContent = "❌ Error: " + e.error;
+        };
+        window.speechSynthesis.speak(u);
+      });
+
+      // --- Test 3: Listen ---
+      let recognition = null;
+      let isListening = false;
+      const listenDot = document.getElementById("listen-dot");
+      const listenStatus = document.getElementById("listen-status");
+      const transcriptEl = document.getElementById("transcript");
+
+      function setListeningUI(on) {
+        isListening = on;
+        listenDot.classList.toggle("listening", on);
+        listenStatus.textContent = on
+          ? "Listening… speak now"
+          : "Not listening";
+      }
+
+      document.getElementById("listen-btn").addEventListener("click", () => {
+        if (!sttSupported) {
+          transcriptEl.textContent =
+            "SpeechRecognition not supported in this browser.";
+          return;
+        }
+        if (isListening && recognition) recognition.stop();
+
+        recognition = new SR();
+        recognition.lang = "en-US";
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onstart = () => setListeningUI(true);
+        recognition.onerror = (e) => {
+          setListeningUI(false);
+          transcriptEl.innerHTML = `<span class="err">Error: ${e.error}</span>`;
+        };
+        recognition.onend = () => setListeningUI(false);
+        recognition.onresult = (e) => {
+          let final = "";
+          let interim = "";
+          for (let i = e.resultIndex; i < e.results.length; i++) {
+            const r = e.results[i];
+            if (r.isFinal) final += r[0].transcript;
+            else interim += r[0].transcript;
+          }
+          transcriptEl.innerHTML = `
+          ${final ? `<strong>${final}</strong>` : ""}
+          ${interim ? `<em style="color:#888">${interim}</em>` : ""}
+        `;
+        };
+
+        recognition.start();
+      });
+
+      document.getElementById("stop-btn").addEventListener("click", () => {
+        if (recognition) recognition.stop();
+        setListeningUI(false);
+      });
+    </script>
+  </body>
+</html>
