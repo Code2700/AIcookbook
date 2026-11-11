@@ -1,0 +1,12 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[dev]
+  command = "echo 'No build needed'"
+  port = 8888
+  targetPort = 5500
+  framework = "#static"
+
+[functions]
+  node_bundler = "esbuild"

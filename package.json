@@ -1,0 +1,12 @@
+{
+  "name": "ai-cookbook",
+  "version": "1.0.0",
+  "description": "Hands-free, camera-aware cookbook",
+  "private": true,
+  "scripts": {
+    "dev": "netlify dev"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
+  }
+}
