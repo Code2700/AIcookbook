@@ -3,5 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "Serverless functions for AI Cookbook",
-  "dependencies": {}
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0"
+  }
 }

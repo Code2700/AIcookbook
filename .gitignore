@@ -25,3 +25,6 @@ build/
 
 # Netlify
 .netlify/
+
+# Function dependencies (installed by Netlify, not committed)
+netlify/functions/node_modules/
