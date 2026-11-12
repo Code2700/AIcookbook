@@ -13,6 +13,7 @@
         <a href="index.html" class="logo">🍳 AI Cookbook</a>
         <nav class="nav">
           <a href="index.html" class="nav-link">Browse</a>
+          <a href="camera.html" class="nav-link">📷 Scan</a>
           <a href="index.html?view=favorites" class="nav-link">Favorites</a>
         </nav>
       </div>
@@ -22,11 +23,10 @@
       <section class="camera-section">
         <h1 class="camera-heading">Scan your ingredients</h1>
         <p class="camera-subtitle">
-          Point your camera at your fridge, pantry, or counter. We'll detect
-          what you have and suggest recipes.
+          Point your camera at your fridge, pantry, or counter. AI will identify
+          what's there and suggest recipes.
         </p>
 
-        <!-- State: idle / preview / captured / error -->
         <div id="camera-root" class="camera-root"></div>
 
         <div id="camera-actions" class="camera-actions" hidden>
@@ -46,27 +46,46 @@
             <button id="retake-btn" class="btn-secondary" type="button">
               🔄 Retake
             </button>
-            <button id="use-btn" class="btn-primary" type="button">
-              Use this photo →
+            <button id="analyze-btn" class="btn-primary" type="button">
+              🤖 Analyze with AI
             </button>
           </div>
         </div>
 
+        <div id="analyzing-step" class="analyzing-step" hidden>
+          <img id="analyzing-img" alt="Image being analyzed" />
+          <div class="analyzing-spinner">
+            <span class="spinner"></span>
+            <p>Analyzing your photo… this may take a few seconds.</p>
+          </div>
+        </div>
+
         <div id="ingredient-step" class="ingredient-step" hidden>
-          <h2>What's in your photo?</h2>
+          <h2>Detected ingredients</h2>
           <p class="step-hint">
-            For now, type the ingredients you see. AI detection arrives in the
-            next part of M4.
+            Click × to remove any that aren't right. Add anything missing below.
           </p>
-          <textarea
-            id="ingredients-input"
-            class="ingredients-input"
-            rows="4"
-            placeholder="e.g. chicken, rice, garlic, onion, tomatoes"
-          ></textarea>
-          <button id="find-recipes-btn" class="btn-primary" type="button">
-            🔍 Find recipes
-          </button>
+
+          <div id="ingredient-chips" class="ingredient-chips"></div>
+
+          <div class="add-ingredient-row">
+            <input
+              type="text"
+              id="add-ingredient-input"
+              class="add-ingredient-input"
+              placeholder="Add ingredient and press Enter..."
+              autocomplete="off"
+            />
+          </div>
+
+          <div class="ingredient-actions">
+            <button id="reset-btn" class="btn-secondary" type="button">
+              ↩ Try another photo
+            </button>
+            <button id="find-recipes-btn" class="btn-primary" type="button">
+              🔍 Find recipes
+            </button>
+          </div>
         </div>
 
         <p id="camera-status" class="camera-status" hidden></p>
@@ -85,6 +104,7 @@
     </footer>
 
     <script src="js/api.js"></script>
+    <script src="js/ai-vision.js"></script>
     <script src="js/camera.js"></script>
   </body>
 </html>
